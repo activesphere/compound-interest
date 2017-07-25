@@ -1,0 +1,333 @@
+import React, { Component } from 'react';
+import * as d3 from 'd3';
+
+let id = 1;
+
+const toInt = n => parseInt(n, 10);
+
+/* https://brendansudol.com/writing/responsive-d3 */
+const responsivefy = (svg, id) => {
+  // get container + svg aspect ratio
+  var container = d3.select(svg.node().parentNode),
+    width = toInt(svg.style('width')),
+    height = toInt(svg.style('height')),
+    aspect = width / height;
+
+  // add viewBox and preserveAspectRatio properties,
+  // and call resize so that svg resizes on inital page load
+  svg
+    .attr('viewBox', '0 0 ' + width + ' ' + height)
+    .attr('perserveAspectRatio', 'xMinYMid')
+    .call(resize);
+
+  // to register multiple listeners for same event type,
+  // you need to add namespace, i.e., 'click.foo'
+  // necessary if you call invoke this function for multiple svgs
+  // api docs: https://github.com/mbostock/d3/wiki/Selections#on
+  d3.select(window).on(`resize.${id}`, resize);
+
+  // get width of container and resize svg to fit it
+  function resize() {
+    var targetWidth = toInt(container.style('width'));
+    svg.attr('width', targetWidth);
+    svg.attr('height', Math.round(targetWidth / aspect));
+  }
+};
+
+class Chart extends Component {
+  state = {
+    width: 600,
+    height: 300,
+    logScale: false
+  };
+
+  constructor(props) {
+    super(props);
+    this.createChart = this.createChart.bind(this);
+    this.id = id++;
+  }
+
+  componentDidMount() {
+    this.createChart();
+  }
+
+  createChart() {
+    const lineColor = '#71a0ae';
+    const { data, yLabel, xLabel, tooltipLabel, logScale } = this.props;
+    const margin = { top: 20, right: 20, bottom: 40, left: 40 };
+    const width = this.state.width - margin.left - margin.right;
+    const height = this.state.height - margin.top - margin.bottom;
+
+    const maxYData = d3.max(data.map(d => d3.max(d.y)));
+    const extentXData = d3.extent([].concat(...data.map(d => d.x)));
+
+    const yScale = (logScale ? d3.scaleLog() : d3.scaleLinear())
+      .domain([0.1, maxYData + 5])
+      .range([height, 0]);
+
+    const xScale = d3.scaleLinear().domain(extentXData).range([0, width]);
+
+    const line = d3
+      .line()
+      .curve(d3.curveBasis)
+      .x(d => xScale(d[0]))
+      .y(d => yScale(d[1]));
+
+    const self = this;
+    function zoomed() {
+      g.selectAll('.chart').attr('transform', d3.event.transform);
+      g.selectAll('.line').style('stroke-width', 1 / d3.event.transform.k);
+
+      if (self.mouseIn) {
+        g.selectAll('.mouse-per-line').attr('transform', function(d, i) {
+          /* https://github.com/d3/d3/issues/2889 */
+          const curr = d3
+            .select(this)
+            .style('transform')
+            .slice(7, -1)
+            .split(',');
+          const cx = parseFloat(curr[4]);
+
+          const transform = d3.zoomTransform(g.node());
+          const x0 = transform.rescaleX(xScale).invert(cx);
+
+          console.log('d zoom=', d);
+          const bisect = d3.bisector(d => d.data).left;
+          const idx = bisect(d.data, x0);
+
+          const y = d.data[idx] && d.data[idx][1];
+
+          d3
+            .select(this)
+            .select('text')
+            .text(`${y && y.toFixed(2)} ${tooltipLabel}`);
+
+          return 'translate(' + cx + ',' + transform.rescaleY(yScale)(y) + ')';
+        });
+      }
+
+      gx.call(xAxis.scale(d3.event.transform.rescaleX(xScale)));
+      gy.call(yAxis.scale(d3.event.transform.rescaleY(yScale)));
+    }
+
+    function zoomEnd() {}
+
+    var zoom = d3
+      .zoom()
+      .scaleExtent([1, 15])
+      .extent([[0, 0], [width, height]])
+      .translateExtent([[0, 0], [width, height]])
+      .on('zoom', zoomed)
+      .on('end', zoomEnd);
+
+    const svg = d3
+      .select(this.node)
+      .attr('id', `chart-${this.id}`)
+      .call(responsivefy, this.id);
+
+    let g = svg.selectAll('g.content').data([{}]);
+
+    g = g
+      .enter()
+      .append('g')
+      .classed('content', true)
+      .merge(g)
+      .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
+
+    g
+      .append('defs')
+      .append('clipPath')
+      .attr('id', `clip-${this.id}`)
+      .append('rect')
+      .attr('fill', 'brown')
+      .attr('stroke', 'brown')
+      .attr('width', width)
+      .attr('height', height);
+    const xAxis = d3.axisBottom(xScale).ticks(10);
+    const yAxis = d3.axisLeft(yScale).ticks(5);
+
+    let gx = g.selectAll('g.xaxis').data([{}]);
+
+    gx = gx
+      .enter()
+      .append('g')
+      .classed('axis xaxis', true)
+      .merge(gx)
+      .attr('transform', 'translate(0,' + height + ')')
+      .call(xAxis);
+
+    svg
+      .append('text')
+      .attr('text-anchor', 'middle')
+      .attr(
+        'transform',
+        'translate(10,' +
+          (height + margin.top + margin.bottom) / 2 +
+          ') rotate(-90)'
+      )
+      .attr('font-size', 15)
+      .attr('letter-spacing', '.1rem')
+      .attr('stroke', '#657B83')
+      .text(yLabel);
+
+    svg
+      .append('text')
+      .attr('text-anchor', 'middle')
+      .attr(
+        'transform',
+        'translate(' +
+          (width + margin.left + margin.right) / 2 +
+          ',' +
+          (height + margin.top + margin.bottom - 4) +
+          ')'
+      )
+      .attr('font-size', 15)
+      .attr('letter-spacing', '.1rem')
+      .attr('stroke', '#657B83')
+      .text(xLabel);
+
+    let gy = g.selectAll('g.yaxis').data([{}]);
+
+    gy = gy
+      .enter()
+      .append('g')
+      .classed('axis yaxis', true)
+      .merge(gy)
+      .call(yAxis);
+
+    let clipped = g.selectAll('.clipped').data([{}]);
+
+    clipped = clipped
+      .enter()
+      .append('g')
+      .classed('clipped', true)
+      .attr('clip-path', `url(#clip-${this.id})`)
+      .merge(clipped);
+
+    let chart = clipped.selectAll('g.chart').data([{}]);
+
+    chart.exit().remove();
+    chart = chart.enter().append('g').classed('chart', true).merge(chart);
+
+    const lineData = data.map(d => {
+      return {
+        data: d3.zip(d.x, d.y),
+        tooltipLabel: d.label
+      };
+    });
+    const path = chart.selectAll('path.line').data(lineData, (d, i) => i);
+
+    path.exit().remove();
+
+    path
+      .enter()
+      .append('path')
+      .attr('class', 'line')
+      .attr('d', d => line(d.data))
+      .attr('stroke-width', 1)
+      .merge(path)
+      .attr('fill', 'none')
+      .attr('stroke', lineColor);
+
+    g.call(zoom);
+
+    let overlay = g.selectAll('g.overlay').data([{}]);
+
+    overlay = overlay
+      .enter()
+      .append('g')
+      .attr('class', 'overlay')
+      .attr('id', 'overlay')
+      .merge(overlay);
+
+    overlay
+      .append('path') // this is the black vertical line to follow mouse
+      .attr('class', 'mouse-line')
+      .style('stroke', 'black')
+      .style('stroke-width', '1px')
+      .style('opacity', '0');
+
+    let mpl = overlay
+      .selectAll('.mouse-per-line')
+      .data(
+        data.map(d => ({ data: d3.zip(d.x, d.y), tooltipLabelFn: d.label }))
+      );
+
+    mpl = mpl.enter().append('g').classed('mouse-per-line', true).merge(mpl);
+
+    mpl
+      .append('circle')
+      .attr('r', 7)
+      .style('stroke', lineColor)
+      .style('fill', 'none')
+      .style('stroke-width', '1px')
+      .style('opacity', 0);
+    mpl
+      .append('text')
+      .attr('font-size', 15)
+      .attr('letter-spacing', '.1rem')
+      .attr('stroke', '#657B83')
+      .attr('transform', 'translate(10, 3)');
+
+    function mousemove() {
+      const mouse = d3.mouse(this);
+      const transform = d3.zoomTransform(g.node());
+      const x0 = transform.rescaleX(xScale).invert(mouse[0]);
+
+      g.select('.mouse-line').attr('d', function() {
+        var d = 'M' + mouse[0] + ',' + height;
+        d += ' ' + mouse[0] + ',' + 0;
+        return d;
+      });
+
+      g.selectAll('.mouse-per-line').attr('transform', function(d, i) {
+        console.log('d mouse=', d);
+        const bisect = d3.bisector(d => d[0]).left;
+        const idx = bisect(d.data, x0);
+        const y = d.data[idx] && d.data[idx][1];
+
+        let labelText = tooltipLabel;
+        if (d.tooltipLabelFn && x0 && y) {
+          labelText = d.tooltipLabelFn(x0 && x0.toFixed(0), y.toFixed(2));
+        }
+        d3.select(this).select('text').text(labelText);
+
+        return 'translate(' + margin.left + ',' + i * 15 + ')';
+      });
+    }
+
+    overlay
+      .append('rect')
+      .attr('width', width)
+      .attr('height', height)
+      .attr('fill', 'none')
+      .attr('pointer-events', 'all')
+      .on('mouseover', () => {
+        this.mouseIn = true;
+        g.select('.mouse-line').style('opacity', '1');
+        d3.selectAll('.mouse-per-line circle').style('opacity', '1');
+        d3.selectAll('.mouse-per-line text').style('opacity', '1');
+      })
+      .on('mouseout', () => {
+        this.mouseIn = false;
+        g.select('.mouse-line').style('opacity', '0');
+        d3.selectAll('.mouse-per-line circle').style('opacity', '0');
+        d3.selectAll('.mouse-per-line text').style('opacity', '0');
+      })
+      .on('mousemove', mousemove);
+  }
+
+  render() {
+    return (
+      <svg
+        ref={node => {
+          this.node = node;
+        }}
+        width={this.state.width}
+        height={this.state.height}
+      />
+    );
+  }
+}
+
+export default Chart;
