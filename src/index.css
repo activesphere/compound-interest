@@ -1,5 +1,48 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+
+  background-color: #fdf6e3;
+  /* color: #657B83; */
+  color: #646565;
+  /* font: 300 18px/1.6em Helvetica, Arial, sans-serif; */
+  font: 300 18px/1.6em 'Lato', sans-serif;
+}
+
+.content {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 40rem;
+  padding: 0 20px;
+}
+
+a {
+  color: #71a0ae;
+  text-decoration: none;
+  border-bottom-style: dotted;
+  border-bottom-width: 1px;
+}
+
+code,
+pre {
+  font-family: 'Lato', monospace;
+}
+
+svg .axis .tick line {
+  stroke: #657b83;
+}
+svg .axis .tick text {
+  fill: #657b83;
+}
+svg .axis path.domain {
+  stroke: #657b83;
+}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+.MathJax_SVG_Display {
+  font-size: 1rem;
 }
