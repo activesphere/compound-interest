@@ -174,12 +174,12 @@ class PersonalFinance extends React.Component {
                   <code>
                     <NumSlider
                       num={rate}
+                      percent
                       step={1}
                       min={1}
                       max={20}
                       onChange={onRateChange}
                     />
-                    %
                   </code>
                   , in <code>{Math.round(doublingPeriod)}</code> years (which is
                   approximately <code>72/{rate}</code>
@@ -202,12 +202,12 @@ class PersonalFinance extends React.Component {
                     <code>
                       <NumSlider
                         num={rate}
+                        percent
                         step={1}
                         min={1}
                         max={20}
                         onChange={onRateChange}
                       />
-                      %
                     </code>{' '}
                     interest will have doubling period of approx{' '}
                     <code>{Math.round(doublingPeriod)}</code> years. By year 30,
@@ -283,23 +283,24 @@ class PersonalFinance extends React.Component {
                       <code>
                         <NumSlider
                           num={rate}
+                          percent
                           min={1}
                           max={10}
                           onChange={r => {
                             onRateChange(r);
                             onRealRateChange(r - (rate - realRate));
                           }}
-                        />%
+                        />
                       </code>{' '}
                       interest rate and your broker is taking{' '}
                       <code>
                         <NumSlider
+                          percent
                           num={rate - realRate}
                           min={1}
                           max={3}
                           onChange={x => onRealRateChange(rate - x)}
                         />
-                        %
                       </code>{' '}
                       from it, its essentially delaying about{' '}
                       {Math.round(realDoublingPeriod - doublingPeriod)} years
@@ -340,6 +341,7 @@ class PersonalFinance extends React.Component {
                       period. Lets compare{' '}
                       <code>
                         <NumSlider
+                          percent
                           num={rate}
                           min={1}
                           max={16}
@@ -349,12 +351,13 @@ class PersonalFinance extends React.Component {
                               onSmallRateChange(r - 1);
                             }
                           }}
-                        />%
+                        />
                       </code>{' '}
                       (which has doubling period of{' '}
                       {doublingPeriod && doublingPeriod.toFixed(2)} years) and{' '}
                       <code>
                         <NumSlider
+                          percent
                           num={smallRate}
                           min={1}
                           max={15}
@@ -365,7 +368,6 @@ class PersonalFinance extends React.Component {
                             }
                           }}
                         />
-                        %
                       </code>{' '}
                       (which has doubling period{' '}
                       {smallDoublingPeriod && smallDoublingPeriod.toFixed(2)}

@@ -9,7 +9,13 @@ class MultipleExample extends React.Component {
       <div>
         With{' '}
         <code>
-          <NumSlider num={rate} min={1} max={16} onChange={onRateChange} />%
+          <NumSlider
+            num={rate}
+            min={1}
+            max={16}
+            percent
+            onChange={onRateChange}
+          />
         </code>{' '}
         interest rate, in{' '}
         <code>

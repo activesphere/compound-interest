@@ -4,6 +4,7 @@ import Slider from 'rc-slider';
 import ClickOutside from 'react-click-outside';
 import 'rc-slider/assets/index.css';
 import 'rc-tooltip/assets/bootstrap.css';
+import './rc-slider-style-override.css';
 
 /* const createSliderWithTooltip = Slider.createSliderWithTooltip;*/
 /* const Range = createSliderWithTooltip(Slider.Range);*/
@@ -38,10 +39,14 @@ class NumSlider extends React.Component {
   };
 
   render() {
-    const { num, min, max, step, onChange } = this.props;
+    const { num, min, max, step, percent, onChange } = this.props;
 
     return (
-      <span style={{ cursor: 'pointer', color: 'brown' }}>
+      <span
+        style={{
+          cursor: 'pointer'
+        }}
+      >
         <ClickOutside
           onClickOutside={this.closeSlider}
           style={{
@@ -49,7 +54,7 @@ class NumSlider extends React.Component {
             display: this.state.showSlider ? 'inline-block' : 'none',
             position: 'absolute',
             marginLeft: -50,
-            marginTop: -10
+            marginTop: -15
           }}
         >
           <Slider
@@ -61,9 +66,10 @@ class NumSlider extends React.Component {
             onChange={onChange}
           />
         </ClickOutside>
-        <span onClick={this.toggleSlider}>
+        <button onClick={this.toggleSlider}>
           {num}
-        </span>
+          {percent ? '%' : ''}
+        </button>
       </span>
     );
   }
