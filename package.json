@@ -2,8 +2,10 @@
   "name": "personal-investing",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://www.activesphere.com/compound-interest",
   "dependencies": {
     "d3": "^4.10.0",
+    "gh-pages": "^1.0.0",
     "husky": "^0.14.3",
     "lint-staged": "^4.0.1",
     "prettier": "^1.5.2",
@@ -20,6 +22,8 @@
     ]
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "precommit": "lint-staged",
     "start": "react-scripts start",
     "build": "react-scripts build",
