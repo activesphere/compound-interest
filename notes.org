@@ -1,13 +1,13 @@
 * todo:
-** Site header & footer
-** Option for log scale
-** period fractions to year and months?
-** Add actual equations
-** Link from main website
-** Charts
-*** line back to x,y axis
-*** Better tooltip on hover
-*** Highlight doubling points
+  - [ ] Site header & footer
+  - [ ] Option for log scale
+  - [ ] Period fractions to year and months?
+  - [ ] Add actual equations
+  - [ ] Link from main website
+  - [ ] Charts
+    - [ ] line back to x,y axis
+    - [ ] Better tooltip on hover
+    - [ ] Highlight doubling points
 
 * references
 ** Al Bartlett's talk on exponentials
