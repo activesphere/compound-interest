@@ -38,9 +38,9 @@ class PersonalFinance extends React.Component {
             <li>Compounding gives better results with time. Invest early.</li>
             <li>
               Think of compounding as multiplication factor. Invest amount \(A\)
-              and get back \(x*A\) after some time. Where x depends on time and
-              interest rate. Note that you can split the investment and the net
-              effect is same. Ex: \(x*(A1 + A2 + A3)\).
+              and get back \(x*A\) after some time. Where \(x\) depends on time
+              and interest rate. You can split the investment and the net effect
+              is same (without consider risk etc). Ex: \(x*(A1 + A2 + A3)\).{' '}
             </li>
             <li>
               <code>1%</code> matters a lot for low interest rates.
