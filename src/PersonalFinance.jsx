@@ -251,10 +251,11 @@ class PersonalFinance extends React.Component {
                 xLabel="Interest rate"
                 yLabel="Doubling period (years)"
                 tooltipLabel="years"
+                xLabelFormat=".0%"
                 data={[
                   {
-                    label: (x, y) => `${y} years, for ${x} interest rate`,
-                    x: d3.range(0.5, 20, 0.1),
+                    hoverTxt: (x, y) => `${y} years, for ${x} interest rate`,
+                    x: d3.range(0.5, 20, 0.1).map(x => x / 100),
                     y: d3
                       .range(0.5, 20, 0.1)
                       .map(x => doublingPeriod({ rate: x / 100 }))
@@ -409,24 +410,29 @@ class PersonalFinance extends React.Component {
               xLabel="Interest rate"
               yLabel="Multiple"
               tooltipLabel="times"
+              withRightLabel
+              xLabelFormat=".0%"
               data={[
                 {
-                  label: (x, y) => `40 years: ${y} times with ${x} interest`,
-                  x: d3.range(1, 16, 0.1),
+                  label: '40 years',
+                  hoverTxt: (x, y) => `40 years: ${y} times with ${x} interest`,
+                  x: d3.range(1, 16, 0.1).map(x => x / 100),
                   y: d3
                     .range(1, 16, 0.1)
                     .map(x => fv({ rate: x / 100, period: 40 }))
                 },
                 {
-                  label: (x, y) => `30 years: ${y} times with ${x} interest`,
-                  x: d3.range(1, 16, 0.1),
+                  label: '30 years',
+                  hoverTxt: (x, y) => `30 years: ${y} times with ${x} interest`,
+                  x: d3.range(1, 16, 0.1).map(x => x / 100),
                   y: d3
                     .range(1, 16, 0.1)
                     .map(x => fv({ rate: x / 100, period: 30 }))
                 },
                 {
-                  label: (x, y) => `20 years: ${y} times with ${x} interest`,
-                  x: d3.range(1, 16, 0.1),
+                  label: '20 years',
+                  hoverTxt: (x, y) => `20 years: ${y} times with ${x} interest`,
+                  x: d3.range(1, 16, 0.1).map(x => x / 100),
                   y: d3
                     .range(1, 16, 0.1)
                     .map(x => fv({ rate: x / 100, period: 20 }))
@@ -447,7 +453,7 @@ class PersonalFinance extends React.Component {
                 tooltipLabel="times"
                 data={[
                   {
-                    label: (x, y) =>
+                    hoverTxt: (x, y) =>
                       `Single: 4% interest, ${x} years => A * ${y}`,
                     x: d3.range(1, 25, 0.1),
                     y: d3
@@ -455,21 +461,23 @@ class PersonalFinance extends React.Component {
                       .map(x => fv({ rate: 4 / 100, period: x }))
                   },
                   {
-                    label: (x, y) => `SIP: 4% interest, ${x} years => A * ${y}`,
+                    hoverTxt: (x, y) =>
+                      `SIP: 4% interest, ${x} years => A * ${y}`,
                     x: d3.range(1, 25, 0.1),
                     y: d3
                       .range(1, 25, 0.1)
                       .map(x => afv({ rate: 4 / 100, period: x }))
                   },
                   {
-                    label: (x, y) => `SIP: 7% interest, ${x} years => A * ${y}`,
+                    hoverTxt: (x, y) =>
+                      `SIP: 7% interest, ${x} years => A * ${y}`,
                     x: d3.range(1, 25, 0.1),
                     y: d3
                       .range(1, 25, 0.1)
                       .map(x => afv({ rate: 7 / 100, period: x }))
                   },
                   {
-                    label: (x, y) =>
+                    hoverTxt: (x, y) =>
                       `Single: 7% interest, ${x} years => A * ${y}`,
                     x: d3.range(1, 25, 0.1),
                     y: d3

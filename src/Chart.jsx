@@ -53,8 +53,22 @@ class Chart extends Component {
 
   createChart() {
     const lineColor = '#71a0ae';
-    const { data, yLabel, xLabel, tooltipLabel, logScale } = this.props;
-    const margin = { top: 20, right: 20, bottom: 40, left: 40 };
+    const {
+      data,
+      yLabel,
+      xLabel,
+      xLabelFormat = '.2',
+      tooltipLabel,
+      logScale,
+      withRightLabel
+    } = this.props;
+    const rightLabelWidth = withRightLabel ? 100 : 0;
+    const margin = {
+      top: 20,
+      right: 20 + rightLabelWidth,
+      bottom: 40,
+      left: 40
+    };
     const width = this.state.width - margin.left - margin.right;
     const height = this.state.height - margin.top - margin.bottom;
 
@@ -91,7 +105,6 @@ class Chart extends Component {
           const transform = d3.zoomTransform(g.node());
           const x0 = transform.rescaleX(xScale).invert(cx);
 
-          console.log('d zoom=', d);
           const bisect = d3.bisector(d => d.data).left;
           const idx = bisect(d.data, x0);
 
@@ -141,9 +154,12 @@ class Chart extends Component {
       .append('rect')
       .attr('fill', 'brown')
       .attr('stroke', 'brown')
-      .attr('width', width)
+      .attr('width', width + rightLabelWidth)
       .attr('height', height);
-    const xAxis = d3.axisBottom(xScale).ticks(10);
+    const xAxis = d3
+      .axisBottom(xScale)
+      .ticks(10)
+      .tickFormat(d3.format(xLabelFormat));
     const yAxis = d3.axisLeft(yScale).ticks(5);
 
     let gx = g.selectAll('g.xaxis').data([{}]);
@@ -212,15 +228,17 @@ class Chart extends Component {
     const lineData = data.map(d => {
       return {
         data: d3.zip(d.x, d.y),
-        tooltipLabel: d.label
+        tooltipLabel: d.hoverTxt,
+        label: d.label
       };
     });
-    const path = chart.selectAll('path.line').data(lineData, (d, i) => i);
+    let path = chart.selectAll('path.line').data(lineData, (d, i) => i);
 
     path.exit().remove();
 
+    path = path.enter();
+
     path
-      .enter()
       .append('path')
       .attr('class', 'line')
       .attr('d', d => line(d.data))
@@ -228,6 +246,20 @@ class Chart extends Component {
       .merge(path)
       .attr('fill', 'none')
       .attr('stroke', lineColor);
+
+    path
+      .append('text')
+      .datum(d => ({
+        label: d.label,
+        value: d.data[d.data.length - 1]
+      }))
+      .attr(
+        'transform',
+        d => 'translate(' + xScale(d.value[0]) + ',' + yScale(d.value[1]) + ')'
+      )
+      .attr('x', 3)
+      .attr('dy', '.35em')
+      .text(d => d.label);
 
     g.call(zoom);
 
@@ -247,11 +279,13 @@ class Chart extends Component {
       .style('stroke-width', '1px')
       .style('opacity', '0');
 
-    let mpl = overlay
-      .selectAll('.mouse-per-line')
-      .data(
-        data.map(d => ({ data: d3.zip(d.x, d.y), tooltipLabelFn: d.label }))
-      );
+    let mpl = overlay.selectAll('.mouse-per-line').data(
+      data.map(d => ({
+        data: d3.zip(d.x, d.y),
+        tooltipLabelFn: d.hoverTxt,
+        label: d.label
+      }))
+    );
 
     mpl = mpl.enter().append('g').classed('mouse-per-line', true).merge(mpl);
 
@@ -281,14 +315,16 @@ class Chart extends Component {
       });
 
       g.selectAll('.mouse-per-line').attr('transform', function(d, i) {
-        console.log('d mouse=', d);
         const bisect = d3.bisector(d => d[0]).left;
         const idx = bisect(d.data, x0);
         const y = d.data[idx] && d.data[idx][1];
 
         let labelText = tooltipLabel;
         if (d.tooltipLabelFn && x0 && y) {
-          labelText = d.tooltipLabelFn(x0 && x0.toFixed(0), y.toFixed(2));
+          labelText = d.tooltipLabelFn(
+            x0 && d3.format(xLabelFormat)(x0),
+            y.toFixed(2)
+          );
         }
         d3.select(this).select('text').text(labelText);
 

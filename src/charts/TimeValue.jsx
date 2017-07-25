@@ -20,19 +20,23 @@ class TimeValue extends React.Component {
           xLabel="years"
           yLabel="Multiple"
           tooltipLabel="times"
+          withRightLabel
           data={[
             {
-              label: label(4),
+              label: '4% interest rate',
+              hoverTxt: label(4),
               x,
               y: fv35(4)
             },
             {
-              label: label(7),
+              label: '7% interest rate',
+              hoverTxt: label(7),
               x,
               y: fv35(7)
             },
             {
-              label: label(10),
+              label: '10% interest rate',
+              hoverTxt: label(10),
               x,
               y: fv35(10)
             }

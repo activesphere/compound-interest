@@ -28,6 +28,9 @@ pre {
   font-family: 'Lato', monospace;
 }
 
+svg text {
+  font-size: 0.8rem;
+}
 svg .axis .tick line {
   stroke: #657b83;
 }
