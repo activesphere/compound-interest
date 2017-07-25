@@ -3,10 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "d3": "^4.10.0",
     "husky": "^0.14.3",
     "lint-staged": "^4.0.1",
     "prettier": "^1.5.2",
+    "rc-slider": "^8.2.0",
     "react": "^15.6.1",
+    "react-click-outside": "tj/react-click-outside",
     "react-dom": "^15.6.1",
     "react-scripts": "1.0.10"
   },
