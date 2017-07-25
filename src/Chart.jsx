@@ -34,6 +34,15 @@ const responsivefy = (svg, id) => {
   }
 };
 
+function textSize(text) {
+  if (!d3) return;
+  var container = d3.select('body').append('svg');
+  container.append('text').attr('x', -99999).attr('y', -99999).text(text);
+  var size = container.node().getBBox();
+  container.remove();
+  return { width: size.width, height: size.height };
+}
+
 class Chart extends Component {
   state = {
     width: 600,
@@ -62,7 +71,10 @@ class Chart extends Component {
       logScale,
       withRightLabel
     } = this.props;
-    const rightLabelWidth = withRightLabel ? 100 : 0;
+
+    const lineLabelLns = data.map(d => d.label).map(textSize).map(s => s.width);
+
+    const rightLabelWidth = withRightLabel ? d3.max(lineLabelLns) : 0;
     const margin = {
       top: 20,
       right: 20 + rightLabelWidth,
@@ -258,7 +270,7 @@ class Chart extends Component {
         d => 'translate(' + xScale(d.value[0]) + ',' + yScale(d.value[1]) + ')'
       )
       .attr('x', 3)
-      .attr('dy', '.35em')
+      .attr('dy', '.5em')
       .text(d => d.label);
 
     g.call(zoom);
