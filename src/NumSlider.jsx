@@ -53,7 +53,7 @@ class NumSlider extends React.Component {
             width: 100,
             display: this.state.showSlider ? 'inline-block' : 'none',
             position: 'absolute',
-            marginLeft: -50,
+            marginLeft: -30,
             marginTop: -15
           }}
         >
@@ -66,7 +66,15 @@ class NumSlider extends React.Component {
             onChange={onChange}
           />
         </ClickOutside>
-        <button onClick={this.toggleSlider}>
+        <button
+          onClick={this.toggleSlider}
+          style={{
+            padding: '3px',
+            fontSize: '1rem',
+            fontFamily: 'Lato',
+            color: '#646565'
+          }}
+        >
           {num}
           {percent ? '%' : ''}
         </button>
