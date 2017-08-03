@@ -1,5 +1,16 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
+import ReactDOM from 'react-dom';
+
+const HtmlHoverTip = props => {
+  return (
+    <div className="tooltip">
+      <span style={{ fontSize: 14 }}>
+        &#9675; {props.text}
+      </span>
+    </div>
+  );
+};
 
 let id = 1;
 
@@ -62,6 +73,11 @@ class Chart extends Component {
 
   createChart() {
     const lineColor = '#71a0ae';
+    var foWidth = 300;
+    var xoffset = 50,
+      yoffset = 20;
+    var tip = { w: 3 / 4 * xoffset, h: yoffset };
+
     const {
       data,
       yLabel,
@@ -239,9 +255,7 @@ class Chart extends Component {
 
     const lineData = data.map(d => {
       return {
-        data: d3.zip(d.x, d.y),
-        tooltipLabel: d.hoverTxt,
-        label: d.label
+        data: d3.zip(d.x, d.y)
       };
     });
     let path = chart.selectAll('path.line').data(lineData, (d, i) => i);
@@ -262,7 +276,6 @@ class Chart extends Component {
     path
       .append('text')
       .datum(d => ({
-        label: d.label,
         value: d.data[d.data.length - 1]
       }))
       .attr(
@@ -270,8 +283,7 @@ class Chart extends Component {
         d => 'translate(' + xScale(d.value[0]) + ',' + yScale(d.value[1]) + ')'
       )
       .attr('x', 3)
-      .attr('dy', '.5em')
-      .text(d => d.label);
+      .attr('dy', '.5em');
 
     g.call(zoom);
 
@@ -301,46 +313,40 @@ class Chart extends Component {
 
     mpl = mpl.enter().append('g').classed('mouse-per-line', true).merge(mpl);
 
-    mpl
-      .append('circle')
-      .attr('r', 7)
-      .style('stroke', lineColor)
-      .style('fill', 'none')
-      .style('stroke-width', '1px')
-      .style('opacity', 0);
-    mpl
-      .append('text')
-      .attr('font-size', 15)
-      .attr('letter-spacing', '.1rem')
-      .attr('stroke', '#657B83')
-      .attr('transform', 'translate(10, 3)');
+    function setAttributes(elem, obj) {
+      for (var prop in obj) {
+        if (obj.hasOwnProperty(prop)) {
+          elem.setAttribute(prop, obj[prop]);
+        }
+      }
+    }
 
     function mousemove() {
+      const foreign = svg.selectAll('foreignObject')._groups[0];
       const mouse = d3.mouse(this);
       const transform = d3.zoomTransform(g.node());
       const x0 = transform.rescaleX(xScale).invert(mouse[0]);
-
       g.select('.mouse-line').attr('d', function() {
         var d = 'M' + mouse[0] + ',' + height;
         d += ' ' + mouse[0] + ',' + 0;
         return d;
       });
 
-      g.selectAll('.mouse-per-line').attr('transform', function(d, i) {
+      g.selectAll('.mouse-per-line').each(function(d, i) {
         const bisect = d3.bisector(d => d[0]).left;
         const idx = bisect(d.data, x0);
         const y = d.data[idx] && d.data[idx][1];
-
-        let labelText = tooltipLabel;
+        let labelText = '';
+        let x1 = x0 && d3.format(xLabelFormat)(x0);
+        let y1 = y && y.toFixed(2);
         if (d.tooltipLabelFn && x0 && y) {
           labelText = d.tooltipLabelFn(
             x0 && d3.format(xLabelFormat)(x0),
             y.toFixed(2)
           );
         }
-        d3.select(this).select('text').text(labelText);
 
-        return 'translate(' + margin.left + ',' + i * 15 + ')';
+        ReactDOM.render(<HtmlHoverTip text={labelText} />, foreign[i]);
       });
     }
 
@@ -351,16 +357,21 @@ class Chart extends Component {
       .attr('fill', 'none')
       .attr('pointer-events', 'all')
       .on('mouseover', () => {
+        g.selectAll('.mouse-per-line').each(function(d, i) {
+          svg
+            .append('foreignObject')
+            .attr('x', xoffset)
+            .attr('y', i * yoffset)
+            .attr('width', foWidth)
+            .attr('class', 'svg-tooltip');
+        });
         this.mouseIn = true;
         g.select('.mouse-line').style('opacity', '1');
-        d3.selectAll('.mouse-per-line circle').style('opacity', '1');
-        d3.selectAll('.mouse-per-line text').style('opacity', '1');
       })
       .on('mouseout', () => {
         this.mouseIn = false;
+        svg.selectAll('foreignObject').remove();
         g.select('.mouse-line').style('opacity', '0');
-        d3.selectAll('.mouse-per-line circle').style('opacity', '0');
-        d3.selectAll('.mouse-per-line text').style('opacity', '0');
       })
       .on('mousemove', mousemove);
   }
