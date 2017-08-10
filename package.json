@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://www.activesphere.com/compound-interest",
   "dependencies": {
+    "classnames": "^2.2.5",
     "d3": "^4.10.0",
     "gh-pages": "^1.0.0",
     "husky": "^0.14.3",
@@ -13,7 +14,8 @@
     "react": "^15.6.1",
     "react-click-outside": "tj/react-click-outside",
     "react-dom": "^15.6.1",
-    "react-scripts": "1.0.10"
+    "react-scripts": "1.0.10",
+    "react-snapshot": "^2.0.0-1"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,css}": [
@@ -26,7 +28,7 @@
     "deploy": "gh-pages -d build",
     "precommit": "lint-staged",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && react-snapshot",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
