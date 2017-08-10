@@ -11,6 +11,15 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.7.0/css/tachyons.min.css"/>
+
+    <style>
+     .sans-serif-as {
+         font-family: avenir next,avenir,-apple-system,BlinkMacSystemFont,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;
+     }
+    </style>
 
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -23,7 +32,7 @@
     -->
     <title>Compount Interest</title>
   </head>
-  <body>
+  <body class="sans-serif-as f5 lh-copy">
     <noscript>
       We are sorry, but you need to enable JavaScript to run this
       article.
@@ -41,13 +50,16 @@
     -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
     <script>
-     MathJax.Hub.Config({
-       "HTML-CSS": { linebreaks: { automatic: true } },
-       SVG: { font: "Asana-Math", linebreaks: { automatic: true } }
-     });
-     MathJax.Hub.Register.StartupHook("End Jax",function () {
-       return MathJax.Hub.setRenderer("SVG");
-     });
+
+     if (typeof MathJax !== 'undefined') {
+       MathJax.Hub.Config({
+         "HTML-CSS": { linebreaks: { automatic: true } },
+         SVG: { font: "Asana-Math", linebreaks: { automatic: true } }
+       });
+       MathJax.Hub.Register.StartupHook("End Jax",function () {
+         return MathJax.Hub.setRenderer("SVG");
+       });
+     }
     </script>
   </body>
 </html>

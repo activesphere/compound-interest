@@ -1,26 +1,30 @@
-body {
-  margin: 0;
-  padding: 0;
-
-  background-color: #fdf6e3;
-  /* color: #657B83; */
-  color: #646565;
-  /* font: 300 18px/1.6em Helvetica, Arial, sans-serif; */
-  font: 300 18px/1.6em 'Lato', sans-serif;
+.material-icons {
+  font-size: initial !important;
 }
 
-.content {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 40rem;
-  padding: 0 20px;
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.as-blue {
+  color: #4185db;
+}
+
+.lato {
+  font-family: 'Lato', sans-serif;
+}
+
+.light-gradient {
+  background: #e7f0fb;
+  background: linear-gradient(180deg, #ecf3fb 0%, #e7f0fb 100%);
 }
 
 a {
-  color: #71a0ae;
+  color: #4185db;
   text-decoration: none;
-  border-bottom-style: dotted;
-  border-bottom-width: 1px;
 }
 
 code,
@@ -48,4 +52,9 @@ svg .axis path.domain {
 
 .MathJax_SVG_Display {
   font-size: 1rem;
+}
+
+td {
+  border: 1px dotted;
+  padding: 5px;
 }
