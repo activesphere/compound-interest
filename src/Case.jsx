@@ -69,14 +69,15 @@ class Case extends React.Component {
   render() {
     const { children } = this.props;
 
+    /* style={{ backgroundColor: '#eae6d5', padding: '1rem' }}*/
     return (
-      <div style={{ backgroundColor: '#eae6d5', padding: '1rem' }}>
-        {children({
+      <span>
+        {' '}{children({
           ...this.state,
           onRateChange: this.onRateChange,
           onPeriodChange: this.onPeriodChange
-        })}
-      </div>
+        })}{' '}
+      </span>
     );
   }
 }
