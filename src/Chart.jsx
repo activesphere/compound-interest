@@ -38,6 +38,11 @@ function textSize(text) {
   if (!d3) return;
   var container = d3.select('body').append('svg');
   container.append('text').attr('x', -99999).attr('y', -99999).text(text);
+  if (!container.node().getBBox) {
+    /* For node rendering */
+    container.remove();
+    return { width: 40, height: 20 };
+  }
   var size = container.node().getBBox();
   container.remove();
   return { width: size.width, height: size.height };
@@ -67,6 +72,7 @@ class Chart extends Component {
       yLabel,
       xLabel,
       xLabelFormat = '.2',
+      xHoverFormat = '.2',
       tooltipLabel,
       logScale,
       withRightLabel
@@ -74,12 +80,12 @@ class Chart extends Component {
 
     const lineLabelLns = data.map(d => d.label).map(textSize).map(s => s.width);
 
-    const rightLabelWidth = withRightLabel ? d3.max(lineLabelLns) : 0;
+    const rightLabelWidth = withRightLabel ? d3.max(lineLabelLns) + 5 : 0;
     const margin = {
       top: 20,
       right: 20 + rightLabelWidth,
       bottom: 40,
-      left: 40
+      left: 50
     };
     const width = this.state.width - margin.left - margin.right;
     const height = this.state.height - margin.top - margin.bottom;
@@ -159,13 +165,12 @@ class Chart extends Component {
       .merge(g)
       .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
 
-    g
-      .append('defs')
+    const defs = g.append('defs');
+
+    defs
       .append('clipPath')
       .attr('id', `clip-${this.id}`)
       .append('rect')
-      .attr('fill', 'brown')
-      .attr('stroke', 'brown')
       .attr('width', width + rightLabelWidth)
       .attr('height', height);
     const xAxis = d3
@@ -301,13 +306,13 @@ class Chart extends Component {
 
     mpl = mpl.enter().append('g').classed('mouse-per-line', true).merge(mpl);
 
-    mpl
-      .append('circle')
-      .attr('r', 7)
-      .style('stroke', lineColor)
-      .style('fill', 'none')
-      .style('stroke-width', '1px')
-      .style('opacity', 0);
+    /* mpl
+     *   .append('circle')
+     *   .attr('r', 7)
+     *   .style('stroke', lineColor)
+     *   .style('fill', 'none')
+     *   .style('stroke-width', '1px')
+     *   .style('opacity', 0);*/
     mpl
       .append('text')
       .attr('font-size', 15)
@@ -334,7 +339,7 @@ class Chart extends Component {
         let labelText = tooltipLabel;
         if (d.tooltipLabelFn && x0 && y) {
           labelText = d.tooltipLabelFn(
-            x0 && d3.format(xLabelFormat)(x0),
+            x0 && d3.format(xHoverFormat || xLabelFormat)(x0),
             y.toFixed(2)
           );
         }
