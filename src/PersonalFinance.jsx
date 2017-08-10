@@ -367,7 +367,7 @@ class PersonalFinance extends React.Component {
               . With a slightly higher risk, you could find investments with{' '}
               <code>4%-5%</code> returns. What would you do? Think about how
               many years it saves in doubling. On the other hand, what if most
-              investment options are around  <code>15%-16%</code>
+              investment options are around <code>15%-16%</code>
               , would you consider <code>17%-18%</code> interest rate
               investments with slightly higher risk?{' '}
             </p>
@@ -496,9 +496,9 @@ class PersonalFinance extends React.Component {
 
           <p>
             There are many factors to consider for personal finance and
-            investment. Mostly they come down to risk and reuturn (which
-            includes interest rate, taxes, management fees, entry and exit fees
-            etc). There is much written about personal finance.{' '}
+            investment. Mostly they come down to risk and return (which includes
+            interest rate, taxes, management fees, entry and exit fees etc).
+            There is much written about personal finance.{' '}
             <a
               className="link dim"
               href="https://www.reddit.com/r/personalfinance/"
