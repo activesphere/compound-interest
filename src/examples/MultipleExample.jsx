@@ -2,6 +2,7 @@ import NumSlider from '../NumSlider.jsx';
 import React from 'react';
 import Currency from '../CurrentCurrency.jsx';
 import Case from '../Case.jsx';
+import Example from '../Example.jsx';
 
 class MultipleExample extends React.Component {
   mainBody = ({ rate, period, multiple, onRateChange, onPeriodChange }) => {
@@ -28,9 +29,10 @@ class MultipleExample extends React.Component {
           />
         </code>{' '}
         years your initial investment would grow approximately{' '}
-        <code>{multiple}</code> times. <Currency amount={1000} /> would grow to{' '}
+        <code>{multiple}</code> times. In other words,{' '}
+        <Currency amount={1000} /> would grow to{' '}
         <Currency amount={(1000 * multiple).toFixed(0)} />
-        . <Currency amount={1000000} /> would grow to{' '}
+        and <Currency amount={1000000} /> would grow to{' '}
         <Currency amount={(1000000 * multiple).toFixed(0)} />
         .
       </div>
@@ -40,13 +42,15 @@ class MultipleExample extends React.Component {
     const { rate, period } = this.props;
 
     return (
-      <Case rate={rate} period={period}>
-        {({ multiple, ...props }) =>
-          this.mainBody({
-            ...props,
-            multiple: multiple && multiple.toFixed(2)
-          })}
-      </Case>
+      <Example>
+        <Case rate={rate} period={period}>
+          {({ multiple, ...props }) =>
+            this.mainBody({
+              ...props,
+              multiple: multiple && multiple.toFixed(2)
+            })}
+        </Case>
+      </Example>
     );
   }
 }
