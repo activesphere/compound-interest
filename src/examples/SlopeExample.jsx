@@ -63,8 +63,8 @@ const SlopeExample = () => {
               </Para>
 
               <Para>
-                Play around with different interest rates and year values.
-                Mostly the approximation is within 1% of the actual value.
+                Play around with different interest rates and year values. The
+                approximation is mostly within 1% of the actual value.
               </Para>
 
               <Para>
@@ -73,10 +73,10 @@ const SlopeExample = () => {
                 other multiples of <code>2</code>
                 ). At the year of the doubling, \((1+r)^n\) is <code>2</code>
                 . So the rate change that year comes out to be \(r*2\). Ex, for
-                interest rate {rate},  it would be{' '}
+                interest rate {rate}, it would be{' '}
                 <code>{r.toFixed(2)} * 2</code> or{' '}
                 <code>{r.toFixed(2) * 2}%</code>
-                .  On the year of the second doubling it would be{' '}
+                . On the year of the second doubling it would be{' '}
                 <code>{r.toFixed(2)} * 4</code> or{' '}
                 <code>{r.toFixed(2) * 4}%</code>
                 .
