@@ -19,6 +19,7 @@ import ValueOf1PercExample from './examples/ValueOf1PercExample.jsx';
 import ValueOfInterestExample from './examples/ValueOfInterestExample.jsx';
 import SlopeExample from './examples/SlopeExample.jsx';
 import Para from './Para.jsx';
+import GithubIcon from './GithubIcon.jsx';
 
 class PersonalFinance extends React.Component {
   state = {
@@ -37,6 +38,12 @@ class PersonalFinance extends React.Component {
       <div className="center measure-wide pv2 black-70 ph3 ph0-ns">
         <h1 className="f3">
           On Compound Interest
+          <a
+            href="https://github.com/activesphere/compound-interest"
+            className="ml2 dib w1 h1 as-github link dim"
+          >
+            <GithubIcon />
+          </a>
           <br />
           <div className="f5 black-50 p">
             How interest rates and time period of investment, effects return

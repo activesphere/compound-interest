@@ -50,6 +50,11 @@ svg .axis path.domain {
   pointer-events: all;
 }
 
+.as-github svg,
+.as-twitter svg {
+  fill: #4185db;
+}
+
 .MathJax_SVG_Display {
   font-size: 1rem;
 }
