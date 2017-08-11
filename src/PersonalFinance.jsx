@@ -35,7 +35,13 @@ class PersonalFinance extends React.Component {
 
     return (
       <div className="center measure-wide pv2 black-70 ph3 ph0-ns">
-        <h1 className="f3">On Compound Interest</h1>
+        <h1 className="f3">
+          On Compound Interest
+          <br />
+          <div className="f5 black-50 p">
+            How interest rates and time period of investment, effects return
+          </div>
+        </h1>
         <section>
           <p>When should you start investing?</p>
           <Para>
@@ -90,7 +96,8 @@ class PersonalFinance extends React.Component {
                   <NumSlider num={rate} onChange={onRateChange} />
                 </code>}
             </Case>{' '}
-            can be clicked. It opens up a slider to change the number.
+            can be clicked. It opens up a slider to change the number. And
+            hovering over charts show some details.
           </Para>
           <hr />
         </section>
@@ -222,7 +229,7 @@ class PersonalFinance extends React.Component {
           <p>
             Throught the article, to simplify the arguments, we assume interest
             rates to be annual. And sometimes work with fractional years. These
-            are approximations, but help with building intuion.
+            are approximations, but help with building intuition.
           </p>
           <p className={cls(mathsCls)}>
             Lets start the equation for compounding. If you invest amount \(P\)
@@ -323,7 +330,7 @@ class PersonalFinance extends React.Component {
 
               <p>
                 How much time do you have? Lets say you are 35 now. You probably
-                would earn till 65? Thats 30 years. Plan before its too later.
+                would earn till 65? Thats 30 years. Plan before its too late.
               </p>
             </div>
           </section>
@@ -498,14 +505,14 @@ class PersonalFinance extends React.Component {
             There are many factors to consider for personal finance and
             investment. Mostly they come down to risk and return (which includes
             interest rate, taxes, management fees, entry and exit fees etc).
-            There is much written about personal finance.{' '}
+            Personal finance is a big topic. You cold probably start by reading
+            discussions at{' '}
             <a
               className="link dim"
               href="https://www.reddit.com/r/personalfinance/"
             >
               Personalfinance subreddit
-            </a>{' '}
-            might be a good place to start.
+            </a>.
           </p>
 
           <p>
