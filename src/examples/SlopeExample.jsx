@@ -75,10 +75,10 @@ const SlopeExample = () => {
                 . So the rate change that year comes out to be \(r*2\). Ex, for
                 interest rate {rate}, it would be{' '}
                 <code>{r.toFixed(2)} * 2</code> or{' '}
-                <code>{r.toFixed(2) * 2}%</code>
+                <code>{(r * 200).toFixed(0)}%</code>
                 . On the year of the second doubling it would be{' '}
                 <code>{r.toFixed(2)} * 4</code> or{' '}
-                <code>{r.toFixed(2) * 4}%</code>
+                <code>{(r * 400).toFixed(0)}%</code>
                 .
               </Para>
             </div>
