@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import numeral from 'numeral';
 
 class CurrentCurrency extends Component {
   render() {
     return (
       <code>
-        ₹{this.props.amount}
+        ₹{numeral(this.props.amount).format()}
       </code>
     );
   }
