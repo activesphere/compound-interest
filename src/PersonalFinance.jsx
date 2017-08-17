@@ -104,7 +104,8 @@ class PersonalFinance extends React.Component {
                 </code>}
             </Case>{' '}
             can be clicked. It opens up a slider to change the number. And
-            hovering over charts show some details.
+            hovering over charts show some details. Also, you can ignore the
+            currency. The basics still hold.{' '}
           </Para>
           <hr />
         </section>
@@ -487,14 +488,14 @@ class PersonalFinance extends React.Component {
               <h3 className="f5">Slopes</h3>
               <Para>
                 Slopes of curve is one way of figuring out how fast change is
-                happening at a cetain point. Lets again start with the compound
+                happening at a certain point. Lets again start with the compound
                 interest equation, and lets call it \(FVM\) (Future Value
                 Multiple). {`$$FVM = { (1 + r)^n } $$`}
                 Derivative of \(FVM\):
                 {`$$ \\frac{dFVM}{dn} = { \\frac{(1 + r)^n}{dn} } $$`}
                 which is:
                 {`$$ { ln(1 + r)(1 + r)^n } $$`}
-                We figured earlier that for small values of r, \(ln(1+r)\) could
+                We learned earlier that for small values of r, \(ln(1+r)\) could
                 be replaced with \(r\). So, we could write the above equations
                 as: {`$$ { r(1 + r)^n } $$`}
                 Now, lets consider what this means.
@@ -512,7 +513,7 @@ class PersonalFinance extends React.Component {
             There are many factors to consider for personal finance and
             investment. Mostly they come down to risk and return (which includes
             interest rate, taxes, management fees, entry and exit fees etc).
-            Personal finance is a big topic. You cold probably start by reading
+            Personal finance is a big topic. You could probably start by reading
             discussions at{' '}
             <a
               className="link dim"
@@ -523,22 +524,28 @@ class PersonalFinance extends React.Component {
           </p>
 
           <p>
-            If you are in Indian context, you could start with{' '}
+            If you are in Indian context,{' '}
             <a
               className="link dim"
               href="https://capitalmind.in/wp-content/uploads/downloads/2017/06/How-much-is-enough-Deepak-Shenoy-HBL-BLink.pdf"
             >
               How much is enough{' '}
             </a>
-            by Deepak Shenoy. Some articles at{' '}
-            <a className="link dim" href="https://capitalmind.in">
-              capitalmind.in
-            </a>{' '}
-            might also be useful.
+            by Deepak Shenoy might help.{' '}
           </p>
           <p>
             Also, its interesting to note that throught the article, all we did
             was to look at implications of the equation \(P' = P(1 + r)^n\).{' '}
+          </p>
+        </section>
+
+        <section>
+          <h2 className="f4">Contribute</h2>
+          <p>
+            Please feel free to give feedback or contribute to the article.{' '}
+            Source code for this article is available{' '}
+            <a href="https://github.com/activesphere/compound-interest">here</a>
+            .
           </p>
         </section>
 
