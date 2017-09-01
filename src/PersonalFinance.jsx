@@ -23,11 +23,16 @@ import GithubIcon from './GithubIcon.jsx';
 
 class PersonalFinance extends React.Component {
   state = {
-    mathsOk: true
+    mathsOk: true,
+    currency: 'INR'
   };
 
   toggleMaths = () => {
     this.setState({ mathsOk: !this.state.mathsOk });
+  };
+
+  selectCurrency = event => {
+    this.setState({ currency: event.target.value });
   };
 
   render() {
@@ -59,10 +64,12 @@ class PersonalFinance extends React.Component {
               taxes would change the real returns you get. But to understand
               compounding better, lets consider this simplification.
             </HoverNote>
-            . If you put <Currency amount={1000} /> in the investment. How much
-            money would you get back in 30 years? What if put{' '}
-            <Currency amount={100000} />
-            , instead of <Currency amount={1000} />
+            . If you put{' '}
+            <Currency currency={this.state.currency} amount={1000} /> in the
+            investment. How much money would you get back in 30 years? What if
+            put <Currency currency={this.state.currency} amount={100000} />
+            , instead of{' '}
+            <Currency currency={this.state.currency} amount={1000} />
             ?
           </Para>
 
@@ -104,8 +111,13 @@ class PersonalFinance extends React.Component {
                 </code>}
             </Case>{' '}
             can be clicked. It opens up a slider to change the number. And
-            hovering over charts show some details. Also, you can ignore the
-            currency. The basics still hold.{' '}
+            hovering over charts show some details. Also, you can change
+            currency among the options:{' '}
+            <select value={this.state.currency} onChange={this.selectCurrency}>
+              <option value="INR">₹</option>
+              <option value="USD">$</option>
+            </select>
+            .
           </Para>
           <hr />
         </section>
@@ -121,8 +133,10 @@ class PersonalFinance extends React.Component {
               If the interest rates are same, you can split your money in
               multiple investments. The return would be the same as putting them
               in a single investment with that interest rate. Ex, two{' '}
-              <Currency amount={100} /> investments, or a single investment of{' '}
-              <Currency amount={200} />, both will give the same returns.
+              <Currency currency={this.state.currency} amount={100} />{' '}
+              investments, or a single investment of{' '}
+              <Currency currency={this.state.currency} amount={200} />
+              , both will give the same returns.
             </li>
 
             <li className={cls(mathsCls)}>
@@ -197,8 +211,13 @@ class PersonalFinance extends React.Component {
               </table>
             </pre>
             If you didn't invest back the interest. Your{' '}
-            <Currency amount={100} /> would have given returns of{' '}
-            <Currency amount={100 + 100 * 0.07 * 10} /> (or{' '}
+            <Currency currency={this.state.currency} amount={100} /> would have
+            given returns of{' '}
+            <Currency
+              currency={this.state.currency}
+              amount={100 + 100 * 0.07 * 10}
+            />{' '}
+            (or{' '}
             <code>
               100 + <span className="b">100 * 0.07 * 10</span>
             </code>
@@ -267,7 +286,8 @@ class PersonalFinance extends React.Component {
 
               <p className={cls(noMathsCls)}>
                 In terms of growh rate, it doesn't matter whether you invest{' '}
-                <Currency amount={100} /> or <Currency amount={100000} />
+                <Currency currency={this.state.currency} amount={100} /> or{' '}
+                <Currency currency={this.state.currency} amount={100000} />
                 . They both grow in the same way. What matters is the interest
                 rate. Ex, if the interest rate is <code>7%</code>
                 , in the first year both of them would grow to <code>
@@ -283,7 +303,11 @@ class PersonalFinance extends React.Component {
                 </span>
               </p>
 
-              <MultipleExample rate={7} period={5} />
+              <MultipleExample
+                currency={this.state.currency}
+                rate={7}
+                period={5}
+              />
 
               <Para className={cls(noMathsCls)}>
                 Another nice property is that there is not difference

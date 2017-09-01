@@ -30,10 +30,11 @@ class MultipleExample extends React.Component {
         </code>{' '}
         years your initial investment would grow approximately{' '}
         <code>{multiple}</code> times. In other words,{' '}
-        <Currency amount={1000} /> would grow to{' '}
-        <Currency amount={(1000 * multiple).toFixed(0)} />
-        and <Currency amount={1000000} /> would grow to{' '}
-        <Currency amount={(1000000 * multiple).toFixed(0)} />
+        <Currency currency={this.props.currency} amount={1000} /> would grow to{' '}
+        <Currency currency={this.props.currency} amount={1000 * multiple} /> and{' '}
+        <Currency currency={this.props.currency} amount={1000000} /> would grow
+        to{' '}
+        <Currency currency={this.props.currency} amount={1000000 * multiple} />
         .
       </div>
     );
