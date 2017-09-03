@@ -143,13 +143,13 @@ class Chart extends Component {
 
     function zoomEnd() {}
 
-    var zoom = d3
-      .zoom()
-      .scaleExtent([1, 15])
-      .extent([[0, 0], [width, height]])
-      .translateExtent([[0, 0], [width, height]])
-      .on('zoom', zoomed)
-      .on('end', zoomEnd);
+    /* var zoom = d3
+     *   .zoom()
+     *   .scaleExtent([1, 15])
+     *   .extent([[0, 0], [width, height]])
+     *   .translateExtent([[0, 0], [width, height]])
+     *   .on('zoom', zoomed)
+     *   .on('end', zoomEnd);*/
 
     const svg = d3
       .select(this.node)
@@ -278,7 +278,7 @@ class Chart extends Component {
       .attr('dy', '.5em')
       .text(d => d.label);
 
-    g.call(zoom);
+    /* g.call(zoom);*/
 
     let overlay = g.selectAll('g.overlay').data([{}]);
 
