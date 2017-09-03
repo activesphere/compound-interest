@@ -23,12 +23,10 @@ const DoublingContinuesExample = () => {
             interest has doubling period of approx{' '}
             <code>{Math.round(doublingPeriod)}</code> years. By year{' '}
             {Math.round(doublingPeriod * 3)} (3 doubling years) , your
-            investment would grow to <code>8</code> times the intial investment.
-            And if you wait another <code>
-              {Math.round(doublingPeriod)}
-            </code>{' '}
-            years, it will grow to <code>16</code> times. In case you are all to
-            exited, finding{' '}
+            investment would grow to <code>8</code> times the initial
+            investment. And if you wait another{' '}
+            <code>{Math.round(doublingPeriod)}</code> years, it will grow to{' '}
+            <code>16</code> times. In case you are all to exited, finding{' '}
             <a href="https://en.wikipedia.org/wiki/Real_interest_rate">
               real interest rate
             </a>{' '}

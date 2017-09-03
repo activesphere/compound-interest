@@ -17,8 +17,8 @@ const ValueOfInterestExample = () => {
               onRateChange: onSmallRateChange
             }) =>
               <span>
-                Here is a way to think about the it, in terms of doubling
-                period. Lets compare interest rates of {' '}
+                Here is a way to think about it, in terms of doubling period.
+                Lets compare interest rates of {' '}
                 <code>
                   <NumSlider
                     percent
@@ -64,12 +64,12 @@ const ValueOfInterestExample = () => {
                   </code>
                   <HoverNote>
                     <code>
-                      3 *  {(smallDoublingPeriod - doublingPeriod).toFixed(2)}
+                      3 * {(smallDoublingPeriod - doublingPeriod).toFixed(2)}
                     </code>{' '}
                     years.{' '}
                   </HoverNote>{' '}
-                   more years, than <code>{rate}%</code>
-                  ,  to grow your money by 8 times.
+                  more years, than <code>{rate}%</code>
+                  , to grow your money by 8 times.
                 </span>
               </span>}
           </Case>}

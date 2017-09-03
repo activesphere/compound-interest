@@ -84,13 +84,13 @@ class PersonalFinance extends React.Component {
             . Would you consider slightly risky investment options which give on
             average <code>1%</code> more interest rate? If safe investments are
             giving around <code>15%-16%</code> interest rates, would you still
-            consider slightly risky investments which promise slightly better
-            interest rates?
+            consider slightly risky investments which promise <code>1%</code>{' '}
+            more interest rate?
           </Para>
           <p>
             Questions like these are attempted better with an understanding of
-            compound interest. Here we collect some ways to build that
-            understanding.
+            compound interest. This article goes through some ways of building
+            mental modals about the topic.
           </p>
           <Para>
             <span className={cls(mathsCls)}>
@@ -221,8 +221,8 @@ class PersonalFinance extends React.Component {
             <code>
               100 + <span className="b">100 * 0.07 * 10</span>
             </code>
-            ). Compound interest is a crucial part of personal finance. It grows
-            your money!{' '}
+            ). With compounding its <span className="b">196.72</span>. Compound
+            interest is a crucial part of personal finance. It grows your money!{' '}
           </div>
 
           <p style={{ display: 'none' }}>
