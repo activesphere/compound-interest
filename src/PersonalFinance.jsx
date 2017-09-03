@@ -511,14 +511,22 @@ class PersonalFinance extends React.Component {
             <section>
               <h3 className="f5">Slopes</h3>
               <Para>
-                Slopes of curve is one way of figuring out how fast change is
-                happening at a certain point. Lets again start with the compound
-                interest equation, and lets call it \(FVM\) (Future Value
-                Multiple). {`$$FVM = { (1 + r)^n } $$`}
-                Derivative of \(FVM\):
-                {`$$ \\frac{dFVM}{dn} = { \\frac{(1 + r)^n}{dn} } $$`}
-                which is:
-                {`$$ { ln(1 + r)(1 + r)^n } $$`}
+                <p>
+                  Lets again start with the compound interest equation \( (1 +
+                  r)^n \). For a curve, slope at a point, is one way of figuring
+                  out how fast change is happening at that certain point. A
+                  point in the curve represents some point in time and the
+                  return at that time. With the slope of the curve, if we assume
+                  it to be same for a year around the point, we can approximate
+                  the rate of return in that year, by calculating the change in
+                  return. Ex, for a straight line, a unit change in{' '}
+                  <code>x</code> axis, would change the <code>y</code> axis by{' '}
+                  <code>slope</code>
+                  .
+                </p>
+                Derivative gives us the slope curve. Derivative of the compund
+                interest equation:
+                {`$$ { \\frac{d(1 + r)^n}{dn} } = { ln(1 + r)(1 + r)^n }$$`}
                 We learned earlier that for small values of r, \(ln(1+r)\) could
                 be replaced with \(r\). So, we could write the above equations
                 as: {`$$ { r(1 + r)^n } $$`}
